@@ -1,7 +1,18 @@
 Name
 ====
 
-lua-resty-memcached-shdict - Powerful memcached client with a shdict caching layer ando many other features
+lua-resty-memcached-shdict - Powerful memcached client with a shdict caching layer and many other features
+
+Table of Contents
+=================
+
+* [Name](#name)
+* [Synopsis](#synopsis)
+* [Description](#description)
+* [Dependencies](#dependencies)
+* [Author](#author)
+* [Copyright and License](#copyright-and-license)
+* [See Also](#see-also)
 
 Synopsis
 ========
@@ -62,6 +73,7 @@ Description
 This library provides a powerful memcached client that deliver the following important features:
 
 1. Automatically using shm-based caching layer with OpenResty's [lua_shared_dict](https://github.com/openresty/lua-nginx-module#lua_shared_dict).
+This local shm cache layer can also be turned off by setting the `disable_shdict` to `true`.
 1. Automatically using server-level (not worker-level) cache locks (based on
 [lua-resty-lock](https://github.com/openresty/lua-resty-lock)) to avoid duplicate and concurrent
 queries to the memcached server for the same key when it is a cache miss in the local shm cache.
@@ -74,6 +86,10 @@ queries to the memcached server for the same key when it is a cache miss in the 
 This library is mostly used for cases that use Memcached or Memcached-compatible servers as the
 data storage (like Kyoto Tycoon).
 
+Atop this library, the user can further add another per-worker caching layer by employing the
+[lua-resty-lrucache](https://github.com/openresty/lua-resty-lrucache)
+library herself, and/or add asynchronous cache updating mechanism via [ngx.timer.at](https://github.com/openresty/lua-nginx-module#ngxtimerat)
+
 Dependencies
 ============
 
@@ -83,6 +99,7 @@ This library depends on the following Lua libraries:
 * [lua-resty-lock](https://github.com/openresty/lua-resty-lock)
 * [lua-resty-shdict-simple](https://github.com/openresty/lua-resty-shdict-simple)
 
+[Back to TOC](#table-of-contents)
 
 Author
 ======
