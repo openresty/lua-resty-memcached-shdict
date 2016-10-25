@@ -246,6 +246,7 @@ function _M.gen_memc_methods (opts)
             else
                 error_log(ctx, 'failed to acquire cache lock on key "', key,
                              '"; proceed anyway')
+                return nil
             end
         end
 
@@ -255,7 +256,8 @@ function _M.gen_memc_methods (opts)
                 lock:unlock()
             end
 
-            return "failed to init " .. tag .. ": " .. (err or "")
+            error_log(ctx, "failed to init ", tag, ": ", err)
+            return nil
         end
 
         local ok, err = memc:set(key, value, ttl)
@@ -275,20 +277,18 @@ function _M.gen_memc_methods (opts)
                       ' due to error "', err, '"')
 
                 memc, err = init_memc(ctx)
-                if not memc then
-                    return "failed to init " .. tag .. ": " .. (err or "")
-                end
-
-                ok, err = memc:set(key, value, store_ttl)
-                if ok or not err then
-                    break
+                if memc then
+                    ok, err = memc:set(key, value, store_ttl)
+                    if ok or not err then
+                        break
+                    end
                 end
             end
 
             if err then
-                local msg = str_format('failed to store key "%s" to %s: %s',
-                                              key, tag, err or "")
-                return msg
+                error_log(ctx, 'failed to store key "', key, '" to ', tag,
+                          ': ', err)
+                return nil
             end
         end
 
@@ -298,7 +298,7 @@ function _M.gen_memc_methods (opts)
             lock:unlock()
         end
 
-        return
+        return true
     end
 
     return fetch_key_from_memc, store_key_to_memc

@@ -9,10 +9,17 @@ Table of Contents
 * [Name](#name)
 * [Synopsis](#synopsis)
 * [Description](#description)
+* [Caveats](#caveats)
 * [Dependencies](#dependencies)
+* [TODO](#todo)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 * [See Also](#see-also)
+
+Status
+======
+
+Experimental.
 
 Synopsis
 ========
@@ -34,6 +41,7 @@ end
 
 local memc_fetch, memc_store =
     shdict_memc.gen_memc_methods{
+        tag = "my memcached server tag",
         debug_logger = dlog,
         warn_logger = warn,
         error_logger = error_log,
@@ -61,10 +69,13 @@ local memc_fetch, memc_store =
 
 local ctx = ngx.ctx
 
+-- in case of failure, can return the stale data with an error message
 local data, err = memc_fetch(ctx, key)
 
-memc_store(ctx, key, value)  -- using the default ttl specified by "store_ttl"
-memc_store(ctx, key, value, ttl)  -- overriding the default ttl
+-- using the default ttl specified by "store_ttl"
+local ok = memc_store(ctx, key, value)
+
+ok = memc_store(ctx, key, value, ttl)  -- overriding the default ttl
 ```
 
 Description
@@ -90,6 +101,15 @@ Atop this library, the user can further add another per-worker caching layer by 
 [lua-resty-lrucache](https://github.com/openresty/lua-resty-lrucache)
 library herself, and/or add asynchronous cache updating mechanism via [ngx.timer.at](https://github.com/openresty/lua-nginx-module#ngxtimerat)
 
+Caveats
+=======
+
+* Unlike the [lua-resty-memcached](https://github.com/openresty/lua-resty-memcached) library,
+this client does not escape special characters in the key. So it is the caller's responsibility
+to avoid using special characters in the keys.
+
+[Back to TOC](#table-of-contents)
+
 Dependencies
 ============
 
@@ -98,6 +118,13 @@ This library depends on the following Lua libraries:
 * [lua-resty-memcached](https://github.com/openresty/lua-resty-memcached)
 * [lua-resty-lock](https://github.com/openresty/lua-resty-lock)
 * [lua-resty-shdict-simple](https://github.com/openresty/lua-resty-shdict-simple)
+
+[Back to TOC](#table-of-contents)
+
+TODO
+====
+
+* Add a test suite under `t/`.
 
 [Back to TOC](#table-of-contents)
 
