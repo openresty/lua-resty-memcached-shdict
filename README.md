@@ -105,7 +105,7 @@ Caveats
 =======
 
 * Unlike the [lua-resty-memcached](https://github.com/openresty/lua-resty-memcached) library,
-this client does not escape special characters in the key. So it is the caller's responsibility
+this client does not escape special characters in the key by default. So it is the caller's responsibility
 to avoid using special characters in the keys.
 
 [Back to TOC](#table-of-contents)
