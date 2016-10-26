@@ -91,7 +91,7 @@ queries to the memcached server for the same key when it is a cache miss in the 
 1. Automatically handles and logs any errors while accessing the Memcached server or `lua_shared_dict`.
 1. Automatically uses connection pools for all the Memcached queries.
 1. Automatically returns stale (or expired) data item in the local shm cache when a cache miss happens
-*and* some other light threads are already querying Memcached and updating the cache.
+*and* some other light threads are already querying Memcached and updating the cache for the same key.
 1. Automatically retry querying Memcached when failures happen (like intermittent network issues).
 
 This library is mostly used for cases that use Memcached or Memcached-compatible servers as the
@@ -99,7 +99,7 @@ data storage (like Kyoto Tycoon).
 
 Atop this library, the user can further add another per-worker caching layer by employing the
 [lua-resty-lrucache](https://github.com/openresty/lua-resty-lrucache)
-library herself, and/or add asynchronous cache updating mechanism via [ngx.timer.at](https://github.com/openresty/lua-nginx-module#ngxtimerat)
+library herself, and/or add asynchronous cache updating mechanism via [ngx.timer.at](https://github.com/openresty/lua-nginx-module#ngxtimerat).
 
 Caveats
 =======
