@@ -286,6 +286,10 @@ function _M.gen_memc_methods (opts)
             end
 
             if err then
+                if lock then
+                    lock:unlock()
+                end
+
                 error_log(ctx, 'failed to store key "', key, '" to ', tag,
                           ': ', err)
                 return nil
