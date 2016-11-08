@@ -278,7 +278,7 @@ function _M.gen_memc_methods (opts)
 
                 memc, err = init_memc(ctx)
                 if memc then
-                    ok, err = memc:set(key, value, store_ttl)
+                    ok, err = memc:set(key, value, ttl)
                     if ok or not err then
                         break
                     end
