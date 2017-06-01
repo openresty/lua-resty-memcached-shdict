@@ -68,7 +68,7 @@ local memc_fetch, memc_store =
         memc_store_retries = 2,  -- optional, default to 1
         memc_store_retry_delay = 100,  -- in ms, optional, default to 100 (ms)
 
-        store_ttl = 1000,  -- in ms, optional, default to 0 (i.e., never expires)
+        store_ttl = 1,  -- in seconds, optional, default to 0 (i.e., never expires)
     }
 
 -- on hot code paths:
