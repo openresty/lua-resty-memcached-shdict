@@ -95,8 +95,8 @@ function _M.gen_memc_methods (opts)
     local function release_memc(ctx, memc)
         local ok, err = memc:set_keepalive(max_idle_time, pool_size)
         if not ok then
-            error_log(ctx, "failed to put connection for ", tag,
-                         " into the pool: ", err)
+            warn(ctx, "failed to put connection for ", tag,
+                 " into the pool: ", err)
         end
     end
 
