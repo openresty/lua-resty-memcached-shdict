@@ -257,8 +257,8 @@ function _M.gen_memc_methods (opts)
             end
 
             error_log(ctx, "failed to init ", tag, ": ", err,
-                         ', the dst ip is: ', memc_host,
-                         ', the dst port is: ', memc_port)
+                      ', the dst ip is: ', memc_host,
+                      ', the dst port is: ', memc_port)
             return nil
         end
 
